@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "distanciaClusters", "distanciaClusters\distanciaClusters.csproj", "{403776DB-4000-4AF8-98BA-09511AB03EFE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{403776DB-4000-4AF8-98BA-09511AB03EFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{403776DB-4000-4AF8-98BA-09511AB03EFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{403776DB-4000-4AF8-98BA-09511AB03EFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{403776DB-4000-4AF8-98BA-09511AB03EFE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7F3FADEA-3FF3-4997-B29A-3EB90E7D37B2}
+	EndGlobalSection
+EndGlobal
