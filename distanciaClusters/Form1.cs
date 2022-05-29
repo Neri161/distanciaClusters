@@ -24,7 +24,7 @@ namespace distanciaClusters
             chart1.Series.Add("clusters");
             chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
             chart1.Series[1].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            generarXY = new KMeans(6, 4);
+            generarXY = new KMeans(6, 3);
             generarXY.generarPuntos();
             generarXY.seleccionarCentroides();
             for (int i = 0; i < generarXY.n; i++)

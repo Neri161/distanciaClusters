@@ -55,28 +55,37 @@ namespace distanciaClusters
         public void calcularMinimo()
         {
             Distancia disAux=new Distancia();
+
             for (int i = 0; i < n; i++)
             {
-                for (int j = 0; j <= K-1; j++)
+                for (int j = 1; j < K; j++)
                 {
-                    if(distancias[i,j].distancias< distancias[i, j+1].distancias)
+                    for (int l = K-1; l >= j; l--)
                     {
-                        disAux = distancias[i, j];
+                        if (distancias[i,l-1].distancia > distancias[i,l].distancia)
+                        {
+                            disAux = distancias[i, l - 1];
+                            distancias[i, l - 1] = distancias[i, l];
+                            distancias[i, l] = disAux;
+
+                        }
                     }
                 }
-                distanciasMinimas.Add(disAux);
+                distanciasMinimas.Add(distancias[i,0]);
             }
+
+            
         }
 
     }
     public class Distancia
     {
         public int grupo { get; set; }
-        public double distancias { get; set; }
+        public double distancia { get; set; }
         public Distancia(int grupo, double distancias)
         {
             this.grupo = grupo;
-            this.distancias = distancias;
+            this.distancia = distancias;
         }
         public Distancia()
         {            
