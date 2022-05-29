@@ -11,17 +11,17 @@ namespace distanciaClusters
         public int[,] XY { get; set; }
         public int n { get; set; }
         public int K { get; set; }
-        public int[,] clusters { get; set; }
+        public double[,] clusters { get; set; }
         public Random rn = new Random();
         public Distancia[,] distancias;
-        public List<Distancia> distanciasMinimas=new List<Distancia>();
+        public List<Distancia> distanciasMinimas = new List<Distancia>();
         public KMeans(int x, int k)
         {
             n = x;
             this.K = k;
             XY = new int[n, 2];
-            clusters = new int[K, 2];
-            distancias= new Distancia[n,K];
+            clusters = new double[K, 2];
+            distancias = new Distancia[n, K];
         }
         public void generarPuntos()
         {
@@ -47,22 +47,22 @@ namespace distanciaClusters
             {
                 for (int j = 0; j < K; j++)
                 {
-                    distancias[i,j]=(new Distancia(j, Math.Sqrt(Math.Pow(clusters[j, 0] - XY[i, 0], 2) + Math.Pow(clusters[j, 1] - XY[i, 1], 2))));
+                    distancias[i, j] = (new Distancia(j, Math.Sqrt(Math.Pow(clusters[j, 0] - XY[i, 0], 2) + Math.Pow(clusters[j, 1] - XY[i, 1], 2)),XY[i,0],XY[i,1]));
 
                 }
             }
         }
         public void calcularMinimo()
         {
-            Distancia disAux=new Distancia();
+            Distancia disAux = new Distancia();
 
             for (int i = 0; i < n; i++)
             {
                 for (int j = 1; j < K; j++)
                 {
-                    for (int l = K-1; l >= j; l--)
+                    for (int l = K - 1; l >= j; l--)
                     {
-                        if (distancias[i,l-1].distancia > distancias[i,l].distancia)
+                        if (distancias[i, l - 1].distancia > distancias[i, l].distancia)
                         {
                             disAux = distancias[i, l - 1];
                             distancias[i, l - 1] = distancias[i, l];
@@ -71,10 +71,40 @@ namespace distanciaClusters
                         }
                     }
                 }
-                distanciasMinimas.Add(distancias[i,0]);
+                distanciasMinimas.Add(distancias[i, 0]);
             }
+        }
+        public double[,] ActualizarClusters()
+        {
+            double[,] nuevoValores = new double[K, 2]; 
+            for (int i = 0; i < K; i++)
+            {
+                double sumaX = 0;
+                double sumaY = 0;
+                int numeroElementosGrupo = 0;
+                for (int j = 0; j < distanciasMinimas.Count; j++)
+                {
+                    if (i == distanciasMinimas[j].grupo)
+                    {
+                        sumaX += distanciasMinimas[j].XY[0];
+                        sumaY += distanciasMinimas[j].XY[1];
+                        numeroElementosGrupo++;
+                    }
+                    
+                }
+                if (numeroElementosGrupo > 1)
+                {
+                    nuevoValores[i, 0] = (sumaX / numeroElementosGrupo);
+                    nuevoValores[i, 1] = (sumaY / numeroElementosGrupo);
+                }
+                else {
+                    nuevoValores[i, 0] = clusters[i, 0];
+                    nuevoValores[i, 1] = clusters[i, 1];
+                }
 
-            
+            }
+            return nuevoValores;
+
         }
 
     }
@@ -82,13 +112,16 @@ namespace distanciaClusters
     {
         public int grupo { get; set; }
         public double distancia { get; set; }
-        public Distancia(int grupo, double distancias)
+        public int[] XY = new int[2];
+        public Distancia(int grupo, double distancias, int x, int y)
         {
             this.grupo = grupo;
             this.distancia = distancias;
+            XY[0] = x;
+            XY[1] = y;
         }
         public Distancia()
-        {            
+        {
         }
 
     }

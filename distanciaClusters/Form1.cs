@@ -38,6 +38,7 @@ namespace distanciaClusters
 
             generarXY.pitagoras();
             generarXY.calcularMinimo();
+            generarXY.clusters = generarXY.ActualizarClusters();
 
         }
     }
