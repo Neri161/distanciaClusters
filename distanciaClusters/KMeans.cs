@@ -29,16 +29,16 @@ namespace distanciaClusters
             for (int i = 0; i < n; i++)
             {
 
-                XY[i, 0] = rn.Next(1, 11);
-                XY[i, 1] = rn.Next(1, 11);
+                XY[i, 0] = rn.Next(1, 11);//x
+                XY[i, 1] = rn.Next(1, 11);//y
             }
         }
         public void seleccionarCentroides()
         {
             for (int i = 0; i < K; i++)
             {
-                clusters[i, 0] = rn.Next(1, n);
-                clusters[i, 1] = rn.Next(1, n);
+                clusters[i, 0] = rn.Next(1, n);//x
+                clusters[i, 1] = rn.Next(1, n);//y
             }
         }
         public void pitagoras()
@@ -47,7 +47,7 @@ namespace distanciaClusters
             {
                 for (int j = 0; j < K; j++)
                 {
-                    distancias[i, j] = (new Distancia(j, Math.Sqrt(Math.Pow(clusters[j, 0] - XY[i, 0], 2) + Math.Pow(clusters[j, 1] - XY[i, 1], 2)),XY[i,0],XY[i,1]));
+                    distancias[i, j] = (new Distancia(j, Math.Sqrt(Math.Pow(clusters[j, 0] - XY[i, 0], 2) + Math.Pow(clusters[j, 1] - XY[i, 1], 2)), XY[i, 0], XY[i, 1]));
 
                 }
             }
@@ -55,7 +55,7 @@ namespace distanciaClusters
         public void calcularMinimo()
         {
             Distancia disAux = new Distancia();
-
+            //Metodo burbuja
             for (int i = 0; i < n; i++)
             {
                 for (int j = 1; j < K; j++)
@@ -76,11 +76,11 @@ namespace distanciaClusters
         }
         public double[,] ActualizarClusters()
         {
-            double[,] nuevoValores = new double[K, 2]; 
+            double[,] nuevoValores = new double[K, 2]; //Array Auxiliar para retornar
             for (int i = 0; i < K; i++)
             {
-                double sumaX = 0;
-                double sumaY = 0;
+                double sumaX = 0; //suma de las x
+                double sumaY = 0; //suma de las y
                 int numeroElementosGrupo = 0;
                 for (int j = 0; j < distanciasMinimas.Count; j++)
                 {
@@ -90,18 +90,19 @@ namespace distanciaClusters
                         sumaY += distanciasMinimas[j].XY[1];
                         numeroElementosGrupo++;
                     }
-                    
+
                 }
+                //Hacer promedio 
                 if (numeroElementosGrupo > 1)
                 {
                     nuevoValores[i, 0] = (sumaX / numeroElementosGrupo);
                     nuevoValores[i, 1] = (sumaY / numeroElementosGrupo);
                 }
-                else {
+                else
+                {
                     nuevoValores[i, 0] = clusters[i, 0];
                     nuevoValores[i, 1] = clusters[i, 1];
                 }
-
             }
             return nuevoValores;
 
