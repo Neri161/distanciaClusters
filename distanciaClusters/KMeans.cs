@@ -22,6 +22,7 @@ namespace distanciaClusters
             XY = new int[n, 2];
             clusters = new int[K, 2];
             distancias= new Distancia[n,K];
+            //prueba
         }
         public void generarPuntos()
         {
