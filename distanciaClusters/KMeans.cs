@@ -11,7 +11,7 @@ namespace distanciaClusters
         public int[,] XY { get; set; }
         public int n { get; set; }
         public int K { get; set; }
-        public double[,] clusters { get; set; }
+        public Double[,] clusters { get; set; }
         public Random rn = new Random();
         public Distancia[,] distancias;
         public List<Distancia> distanciasMinimas = new List<Distancia>();
@@ -20,7 +20,7 @@ namespace distanciaClusters
             n = x;
             this.K = k;
             XY = new int[n, 2];
-            clusters = new double[K, 2];
+            clusters = new Double[K, 2];
             distancias = new Distancia[n, K];
         }
         public void generarPuntos()
@@ -29,16 +29,16 @@ namespace distanciaClusters
             for (int i = 0; i < n; i++)
             {
 
-                XY[i, 0] = rn.Next(1, 11);//x
-                XY[i, 1] = rn.Next(1, 11);//y
+                XY[i, 0] = rn.Next(1, 101);//x
+                XY[i, 1] = rn.Next(1, 101);//y
             }
         }
         public void seleccionarCentroides()
         {
             for (int i = 0; i < K; i++)
             {
-                clusters[i, 0] = rn.Next(1, n);//x
-                clusters[i, 1] = rn.Next(1, n);//y
+                clusters[i, 0] = rn.Next(1, 50);//x
+                clusters[i, 1] = rn.Next(1, 50);//y
             }
         }
         public void pitagoras()
@@ -54,6 +54,7 @@ namespace distanciaClusters
         }
         public void calcularMinimo()
         {
+            distanciasMinimas.Clear();
             Distancia disAux = new Distancia();
             //Metodo burbuja
             for (int i = 0; i < n; i++)
@@ -74,13 +75,13 @@ namespace distanciaClusters
                 distanciasMinimas.Add(distancias[i, 0]);
             }
         }
-        public double[,] ActualizarClusters()
+        public Double[,] ActualizarClusters()
         {
-            double[,] nuevoValores = new double[K, 2]; //Array Auxiliar para retornar
+            Double[,] nuevoValores = new Double[K, 2]; //Array Auxiliar para retornar
             for (int i = 0; i < K; i++)
             {
-                double sumaX = 0; //suma de las x
-                double sumaY = 0; //suma de las y
+                float sumaX = 0; //suma de las x
+                float sumaY = 0; //suma de las y
                 int numeroElementosGrupo = 0;
                 for (int j = 0; j < distanciasMinimas.Count; j++)
                 {
@@ -100,12 +101,62 @@ namespace distanciaClusters
                 }
                 else
                 {
-                    nuevoValores[i, 0] = clusters[i, 0];
-                    nuevoValores[i, 1] = clusters[i, 1];
+                    nuevoValores[i, 0] = (float)clusters[i, 0];
+                    nuevoValores[i, 1] = (float)clusters[i, 1];
                 }
             }
             return nuevoValores;
 
+        }
+        public List<Distancia> iterar()
+        {
+            int i = 0;
+            Double[,] nuevoVal = ActualizarClusters();
+            Boolean a=false;
+                
+            do
+            {
+                
+                clusters = ActualizarClusters();
+                pitagoras();
+                calcularMinimo();
+                nuevoVal = ActualizarClusters();
+                a = compara(clusters, nuevoVal);
+                if (a==false)
+                {                    
+                    clusters = ActualizarClusters();
+                }
+                else
+                {
+                    Console.WriteLine("");
+                    i = 100;
+                }
+                i++;
+
+            } while (i < 100);
+
+            return distanciasMinimas;
+        }
+        Boolean compara(Double[,] a, Double[,] b)
+        {
+            var la0 = a.GetLength(0);
+            var la1 = a.GetLength(1);
+            var lb0 = b.GetLength(0);
+            var lb1 = b.GetLength(1);
+
+            if ((la0 == lb0) && (la1 == lb1))
+            {
+                for (int f = 0; f != la0; ++f)
+                    for (int c = 0; c != la1; ++c)
+                        if (a[f, c] != b[f, c])
+                            return false;
+            }
+            else
+            {                
+                return false;
+            }
+
+            return true;
         }
 
     }
